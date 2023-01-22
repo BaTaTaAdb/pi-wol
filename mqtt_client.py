@@ -1,7 +1,7 @@
 # MQTT Client demo
 # Continuously monitor two different MQTT topics for data,
 # check if the received data matches two predefined 'commands'
- 
+from app import turn_on
 import paho.mqtt.client as mqtt
  
 # The callback for when the client receives a CONNACK response from the server.
@@ -18,14 +18,13 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
 
-    if msg.payload == b"Hello":
-        print("Received message #1, do something")
-        # Do something
+    if msg.payload == b"turn_on":
+        print("Turning on computer!")
+        turn_on()
 
-
-    if msg.payload == b"World!":
-        print("Received message #2, do something else")
-        # Do something else
+    if msg.payload == b"turn_off!":
+        print("Turning off computer!")
+        turn_on()
  
 # Create an MQTT client and attach our routines to it.
 client = mqtt.Client()
