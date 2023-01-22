@@ -10,7 +10,7 @@ pfio.digital_write(0,0)
 
 def turn_on():
     pfio.digital_write(0,1)
-    sleep(0.1)
+    sleep(0.4)
     pfio.digital_write(0,0)
  
 # The callback for when the client receives a CONNACK response from the server.
