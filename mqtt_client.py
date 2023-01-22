@@ -1,8 +1,17 @@
 # MQTT Client demo
 # Continuously monitor two different MQTT topics for data,
 # check if the received data matches two predefined 'commands'
-from app import turn_on
 import paho.mqtt.client as mqtt
+import pifacedigitalio as pfio
+from time import sleep
+
+pfio.init()
+pfio.digital_write(0,0)
+
+def turn_on():
+    pfio.digital_write(0,1)
+    sleep(0.1)
+    pfio.digital_write(0,0)
  
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -22,7 +31,7 @@ def on_message(client, userdata, msg):
         print("Turning on computer!")
         turn_on()
 
-    if msg.payload == b"turn_off!":
+    if msg.payload == b"turn_off":
         print("Turning off computer!")
         turn_on()
  
