@@ -4,6 +4,7 @@
 import paho.mqtt.client as mqtt
 import pifacedigitalio as pfio
 from time import sleep
+from daemonize import Daemonize
 
 pfio.init()
 pfio.digital_write(0,0)
@@ -34,16 +35,20 @@ def on_message(client, userdata, msg):
     if msg.payload == b"turn_off":
         print("Turning off computer!")
         turn_on()
- 
-# Create an MQTT client and attach our routines to it.
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
- 
-client.connect("test.mosquitto.org", 1883, 60)
- 
-# Process network traffic and dispatch callbacks. This will also handle
-# reconnecting. Check the documentation at
-# https://github.com/eclipse/paho.mqtt.python
-# for information on how to use other loop*() functions
-client.loop_forever()
+
+def main():
+	# Create an MQTT client and attach our routines to it.
+	client = mqtt.Client()
+	client.on_connect = on_connect
+	client.on_message = on_message
+
+	client.connect("test.mosquitto.org", 1883, 60)
+
+	# Process network traffic and dispatch callbacks. This will also handle
+	# reconnecting. Check the documentation at
+	# https://github.com/eclipse/paho.mqtt.python
+	# for information on how to use other loop*() functions
+	client.loop_forever()
+
+daemon = Daemonize(app="mqtt-client", pid="/tmp/mqtt-client", action=main)
+daemon.start()
