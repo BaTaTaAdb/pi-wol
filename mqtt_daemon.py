@@ -4,7 +4,7 @@
 import paho.mqtt.client as mqtt
 import pifacedigitalio as pfio
 from time import sleep
-#from daemonize import Daemonize
+from daemonize import Daemonize
 
 pfio.init()
 pfio.digital_write(0,0)
@@ -50,4 +50,5 @@ def main():
 	# for information on how to use other loop*() functions
 	client.loop_forever()
 
-main()
+daemon = Daemonize(app="mqtt-client", pid="/tmp/mqtt-client.pid", action=main)
+daemon.start()

@@ -6,7 +6,7 @@ from time import sleep
 
 sleep(1)
 publish.single("BaTaTaAdb/pc", "turn_on", hostname="test.mosquitto.org")
-sleep(1)
+sleep(5)
 publish.single("BaTaTaAdb/pc", "turn_off", hostname="test.mosquitto.org")
 print("Done")
  
