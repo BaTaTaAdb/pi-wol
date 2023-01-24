@@ -6,12 +6,22 @@ import pifacedigitalio as pfio
 import paho.mqtt.publish as publish
 from time import sleep
 #from daemonize import Daemonize
+global pc_is_on
+pc_is_on = False
 
 def turn_on():
     pfio.digital_write(0,1)
     sleep(0.4)
     pfio.digital_write(0,0)
  
+def main():
+    pfio.init()
+    pfio.digital_write(0,0)
+    # Create an MQTT client and attach our routines to it.
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message 
+    
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
@@ -47,15 +57,6 @@ def on_message(client, userdata, msg):
         print("Pong!")
         publish.single("BaTaTaAdb/pc", "Pong!", hostname="test.mosquitto.org")
 
-def main():
-    global pc_is_on
-    pc_is_on = False
-    pfio.init()
-    pfio.digital_write(0,0)
-    # Create an MQTT client and attach our routines to it.
-    client = mqtt.Client()
-    client.on_connect = on_connect
-    client.on_message = on_message 
     
     client.connect("test.mosquitto.org", 1883, 60)
 
