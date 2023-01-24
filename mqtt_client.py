@@ -8,6 +8,7 @@ from time import sleep
 
 pfio.init()
 pfio.digital_write(0,0)
+pc_is_on = False
 
 def turn_on():
     pfio.digital_write(0,1)
@@ -30,11 +31,19 @@ def on_message(client, userdata, msg):
 
     if msg.payload == b"turn_on":
         print("Turning on computer!")
-        turn_on()
+        if not pc_is_on:
+            turn_on()
+            pc_is_on = True
+        else:
+            print("Already on!")
 
     if msg.payload == b"turn_off":
         print("Turning off computer!")
-        turn_on()
+        if pc_is_on:
+            turn_on()
+            pc_is_on = False
+        else:
+            print("Already off!")
 
 def main():
 	# Create an MQTT client and attach our routines to it.
@@ -50,4 +59,10 @@ def main():
 	# for information on how to use other loop*() functions
 	client.loop_forever()
 
-main()
+while True:
+    try:
+        main()
+    except KeyboardInterrupt:
+        exit()
+    except Exception as e:
+        print(e)    
