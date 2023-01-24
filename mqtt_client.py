@@ -3,6 +3,7 @@
 # check if the received data matches two predefined 'commands'
 import paho.mqtt.client as mqtt
 import pifacedigitalio as pfio
+import paho.mqtt.publish as publish
 from time import sleep
 #from daemonize import Daemonize
 
@@ -24,6 +25,7 @@ def on_connect(client, userdata, flags, rc):
     
     #client.subscribe("BaTaTaAdb/test")
     client.subscribe("BaTaTaAdb/pc")
+    client.subscribe("BaTaTaAdb/ping")
  
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
@@ -44,6 +46,10 @@ def on_message(client, userdata, msg):
             pc_is_on = False
         else:
             print("Already off!")
+            
+    if msg.payload == b"ping":
+        print("Pong!")
+        publish.single("BaTaTaAdb/pc", "Pong!", hostname="test.mosquitto.org")
 
 def main():
 	# Create an MQTT client and attach our routines to it.
