@@ -50,7 +50,6 @@ def on_message(client, userdata, msg):
 def main():
     pfio.init()
     pfio.digital_write(0,0)
-    pc_is_on = False
     # Create an MQTT client and attach our routines to it.
     client = mqtt.Client()
     client.on_connect = on_connect
@@ -66,6 +65,8 @@ def main():
 
 while True:
     try:
+        global pc_is_on
+        pc_is_on = False
         main()
     except KeyboardInterrupt:
         exit()
