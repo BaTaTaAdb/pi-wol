@@ -48,6 +48,8 @@ def on_message(client, userdata, msg):
         publish.single("BaTaTaAdb/pc", "Pong!", hostname="test.mosquitto.org")
 
 def main():
+    global pc_is_on
+    pc_is_on = False
     pfio.init()
     pfio.digital_write(0,0)
     # Create an MQTT client and attach our routines to it.
@@ -65,8 +67,6 @@ def main():
 
 while True:
     try:
-        global pc_is_on
-        pc_is_on = False
         main()
     except KeyboardInterrupt:
         exit()
