@@ -39,11 +39,11 @@ def on_message(client, userdata, msg):
 
     if msg.payload == b"turn_on":
         #print("Turning on computer!")
-        switch_pc()
+        switch_pc("on")
 
     if msg.payload == b"turn_off":
         #print("Turning off computer!")
-        switch_pc()
+        switch_pc("off")
             
     if msg.payload == b"ping":
         print("pong")
