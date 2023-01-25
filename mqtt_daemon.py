@@ -31,7 +31,7 @@ def on_connect(client, userdata, flags, rc):
     # reconnect then subscriptions will be renewed.
     
     #client.subscribe("BaTaTaAdb/test")
-    client.subscribe(["BaTaTaAdb/pc","BaTaTaAdb/ping"])
+    client.subscribe([("BaTaTaAdb/pc",1),("BaTaTaAdb/ping",0)])
     #client.subscribe()
  
 # The callback for when a PUBLISH message is received from the server.
