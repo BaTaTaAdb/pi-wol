@@ -10,10 +10,17 @@ pfio.init()
 pfio.digital_write(0,0)
 pc_is_on = False
 
-def turn_on():
+def switch_pc(state):
+    if state == "on" and pc_is_on:
+        print("Already on!")
+        return
+    if state == "off" and not pc_is_on:
+        print("Already off!")
+        return
     pfio.digital_write(0,1)
     sleep(0.4)
     pfio.digital_write(0,0)
+    print(f"Turning {state} computer!")
  
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -31,20 +38,12 @@ def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
 
     if msg.payload == b"turn_on":
-        print("Turning on computer!")
-        if not pc_is_on:
-            turn_on()
-            pc_is_on = True
-        else:
-            print("Already on!")
+        #print("Turning on computer!")
+        switch_pc()
 
     if msg.payload == b"turn_off":
-        print("Turning off computer!")
-        if pc_is_on:
-            turn_on()
-            pc_is_on = False
-        else:
-            print("Already off!")
+        #print("Turning off computer!")
+        switch_pc()
             
     if msg.payload == b"ping":
         print("pong")
