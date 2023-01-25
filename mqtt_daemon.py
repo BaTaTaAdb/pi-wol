@@ -5,10 +5,11 @@ import paho.mqtt.client as mqtt
 import pifacedigitalio as pfio
 from time import sleep
 from daemonize import Daemonize
+from sys import argv
 
 pfio.init()
 pfio.digital_write(0,0)
-pc_is_on = False
+pc_is_on = bool(argv[1]) if len(argv) > 1 else False
 
 def switch_pc(state):
     if state == "on" and pc_is_on:
