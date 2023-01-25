@@ -44,20 +44,18 @@ def on_message(client, userdata, msg):
             pc_is_on = False
         else:
             print("Already off!")
+            
+    if msg.payload == b"ping":
+        print("pong")
 
-def main():
-	# Create an MQTT client and attach our routines to it.
-	client = mqtt.Client()
-	client.on_connect = on_connect
-	client.on_message = on_message
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
 
-	client.connect("test.mosquitto.org", 1883, 60)
+client.connect("test.mosquitto.org", 1883, 60)
 
-	# Process network traffic and dispatch callbacks. This will also handle
-	# reconnecting. Check the documentation at
-	# https://github.com/eclipse/paho.mqtt.python
-	# for information on how to use other loop*() functions
-	client.loop_forever()
-
-daemon = Daemonize(app="mqtt-client", pid="/tmp/mqtt-client.pid", action=main)
-daemon.start()
+# Process network traffic and dispatch callbacks. This will also handle
+# reconnecting. Check the documentation at
+# https://github.com/eclipse/paho.mqtt.python
+# for information on how to use other loop*() functions
+client.loop_forever()
