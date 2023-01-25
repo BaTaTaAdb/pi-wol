@@ -6,8 +6,6 @@ import pifacedigitalio as pfio
 import paho.mqtt.publish as publish
 from time import sleep
 #from daemonize import Daemonize
-global pc_is_on
-pc_is_on = False
 
 class Instance():
     
