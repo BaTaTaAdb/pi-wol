@@ -18,6 +18,8 @@ def switch_pc(state):
     if state == "off" and not pc_is_on:
         print("Already off!")
         return
+    if state == "switch":
+        pass
     pfio.digital_write(0,1)
     sleep(0.4)
     pfio.digital_write(0,0)
@@ -37,17 +39,19 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
-
     if msg.payload == b"turn_on":
         #print("Turning on computer!")
         switch_pc("on")
 
-    if msg.payload == b"turn_off":
+    elif msg.payload == b"turn_off":
         #print("Turning off computer!")
         switch_pc("off")
             
-    if msg.payload == b"ping":
+    elif msg.payload == b"ping":
         print("pong")
+        
+    elif msg.payload == b"switch":
+        switch_pc("switch")
 
 client = mqtt.Client()
 client.on_connect = on_connect
