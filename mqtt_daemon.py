@@ -9,6 +9,8 @@ from sys import argv
 
 pfio.init()
 pfio.digital_write(0,0)
+pfio.digital_write(1,0)
+sleep(0.4)
 pfio.digital_write(1,1)
 pc_is_on = bool(argv[1]) if len(argv) > 1 else False
 
