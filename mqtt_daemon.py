@@ -4,12 +4,12 @@
 import paho.mqtt.client as mqtt
 import pifacedigitalio as pfio
 from time import sleep
-from daemonize import Daemonize
+#from daemonize import Daemonize
 from sys import argv
 
 pfio.init()
 pfio.digital_write(0,0)
-pfio.digital_write(1,0)
+pfio.digital_write(1,1)
 pc_is_on = bool(argv[1]) if len(argv) > 1 else False
 
 def switch_pc(state):
@@ -27,9 +27,9 @@ def switch_pc(state):
     print(f"Turning {state} computer!")
     
 def neon(on: bool):
-    pfio.digital_write(1,int(on))
+    pfio.digital_write(1,int(not on))
     
- 
+
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))

@@ -5,8 +5,8 @@ import paho.mqtt.publish as publish
 from time import sleep
 
 sleep(1)
-publish.single("BaTaTaAdb/pc", "turn_on", hostname="test.mosquitto.org")
-sleep(5)
-publish.single("BaTaTaAdb/pc", "turn_off", hostname="test.mosquitto.org")
+publish.single("BaTaTaAdb/pc", "neon_on", hostname="test.mosquitto.org")
+sleep(2)
+publish.single("BaTaTaAdb/pc", "neon_off", hostname="test.mosquitto.org")
 print("Done")
  
