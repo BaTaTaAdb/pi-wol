@@ -9,6 +9,7 @@ from sys import argv
 
 pfio.init()
 pfio.digital_write(0,0)
+pfio.digital_write(1,0)
 pc_is_on = bool(argv[1]) if len(argv) > 1 else False
 
 def switch_pc(state):
@@ -24,6 +25,10 @@ def switch_pc(state):
     sleep(0.4)
     pfio.digital_write(0,0)
     print(f"Turning {state} computer!")
+    
+def neon(on: bool):
+    pfio.digital_write(1,int(on))
+    
  
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -52,6 +57,12 @@ def on_message(client, userdata, msg):
         
     elif msg.payload == b"switch":
         switch_pc("switch")
+        
+    elif msg.payload == b"neon_on":
+        neon(True)
+        
+    elif msg.payload == b"neon_off":
+        neon(False)
 
 client = mqtt.Client()
 client.on_connect = on_connect
